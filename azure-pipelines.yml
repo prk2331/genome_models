@@ -1,0 +1,15 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/models/xgboost_model/**    # Trigger only when XGBoost code is updated
+    exclude:
+      - notebooks/**                   # Exclude notebook updates
+
+jobs:
+  - job: xgboost_pipeline
+    steps:
+      - script: python src/models/xgboost_model/train.py
+      - script: python deployment/xgboost_deploy.py
